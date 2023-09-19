@@ -10,7 +10,7 @@ README = (HERE / "README.md").read_text()
 # This call to setup() does all the work
 setup(
     name="youtube-search",
-    version="2.1.2",
+    version="8.1.2",
     description="Perform YouTube video searches without the API",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -23,6 +23,8 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
     ],
     packages=["youtube_search"],
     include_package_data=True,
