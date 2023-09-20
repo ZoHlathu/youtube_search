@@ -15,7 +15,10 @@ class YoutubeSearch:
         response = requests.get(url).text
         while "ytInitialData" not in response:
             response = requests.get(url).text
-        results = self._parse_html(response)
+        try:
+            results = self._parse_html(response)
+        except json.decoder.JSONDecodeError:
+            results = []
         if self.max_results is not None and len(results) > self.max_results:
             return results[:self.max_results]
         return results
@@ -61,4 +64,5 @@ class YoutubeSearch:
         if clear_cache:
             self.videos = ""
         return result
+
 
