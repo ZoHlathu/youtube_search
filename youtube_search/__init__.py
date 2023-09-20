@@ -17,7 +17,7 @@ class YoutubeSearch:
             response = requests.get(url).text
         try:
             results = self._parse_html(response)
-        except json.decoder.JSONDecodeError:
+        except IndexError:
             results = []
         if self.max_results is not None and len(results) > self.max_results:
             return results[:self.max_results]
@@ -43,9 +43,9 @@ class YoutubeSearch:
                                 video_data = video.get("videoRenderer", {})
                                 res["id"] = video_data.get("videoId", None)
                                 res["thumbnails"] = [thumb.get("url", None) for thumb in video_data.get("thumbnail", {}).get("thumbnails", [{}])]
-                                res["title"] = video_data.get("title", {}).get("runs", [[{}]])[0].get("text", None)
+                                res["title"] = video_data.get("title", {}).get("runs", [{}])[0].get("text", None)
                                 res["long_desc"] = video_data.get("descriptionSnippet", {}).get("runs", [{}])[0].get("text", None)
-                                res["channel"] = video_data.get("longBylineText", {}).get("runs", [[{}]])[0].get("text", None)
+                                res["channel"] = video_data.get("longBylineText", {}).get("runs", [{}])[0].get("text", None)
                                 res["duration"] = video_data.get("lengthText", {}).get("simpleText", 0)
                                 res["views"] = video_data.get("viewCountText", {}).get("simpleText", 0)
                                 res["publish_time"] = video_data.get("publishedTimeText", {}).get("simpleText", 0)
@@ -64,6 +64,7 @@ class YoutubeSearch:
         if clear_cache:
             self.videos = ""
         return result
+
 
 
 
